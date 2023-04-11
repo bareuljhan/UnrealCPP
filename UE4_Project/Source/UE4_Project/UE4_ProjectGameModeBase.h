@@ -13,5 +13,5 @@ UCLASS()
 class UE4_PROJECT_API AUE4_ProjectGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+	AUE4_ProjectGameModeBase();
 };
