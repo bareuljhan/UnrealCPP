@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\UE4_Project.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{32FCC257-3BC1-4677-B108-72DBE25A7220}</UniqueIdentifier>
+      <UniqueIdentifier>{5E33565E-56FF-43AC-AFE4-21BE90D9CF57}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\UE4_Project.Target.cs">
       <Filter>Source</Filter>
@@ -13,7 +13,7 @@
     </None>
     <None Include="..\..\.gitignore" />
     <Filter Include="Config">
-      <UniqueIdentifier>{176626E8-7967-4A44-ADB2-AF40D6A0757E}</UniqueIdentifier>
+      <UniqueIdentifier>{E8F2AC24-7996-457F-86CA-13EB87CAD6E6}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -24,9 +24,18 @@
     <None Include="..\..\Config\DefaultGame.ini">
       <Filter>Config</Filter>
     </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
     <Filter Include="Source\UE4_Project">
-      <UniqueIdentifier>{4DCA76D0-6EFA-4471-89E7-9BD38F40997B}</UniqueIdentifier>
+      <UniqueIdentifier>{3D798C95-775E-41E0-8DC5-9E7D47B8CC6A}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\UE4_Project\MyAnimInstance.cpp">
+      <Filter>Source\UE4_Project</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\UE4_Project\MyAnimInstance.h">
+      <Filter>Source\UE4_Project</Filter>
+    </ClInclude>
     <ClCompile Include="..\..\Source\UE4_Project\MyCharacter.cpp">
       <Filter>Source\UE4_Project</Filter>
     </ClCompile>

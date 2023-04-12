@@ -58,7 +58,11 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(AMyCharacter); \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(AMyCharacter)
 
 
-#define UE4_Project_Source_UE4_Project_MyCharacter_h_12_PRIVATE_PROPERTY_OFFSET
+#define UE4_Project_Source_UE4_Project_MyCharacter_h_12_PRIVATE_PROPERTY_OFFSET \
+	FORCEINLINE static uint32 __PPO___upDown() { return STRUCT_OFFSET(AMyCharacter, _upDown); } \
+	FORCEINLINE static uint32 __PPO___leftRight() { return STRUCT_OFFSET(AMyCharacter, _leftRight); }
+
+
 #define UE4_Project_Source_UE4_Project_MyCharacter_h_9_PROLOG
 #define UE4_Project_Source_UE4_Project_MyCharacter_h_12_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
