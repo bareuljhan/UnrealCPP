@@ -16,6 +16,7 @@ public:
 	AMyCharacter();
 
 protected:
+	virtual void PostInitializeComponents() override;
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -26,12 +27,22 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION(BlueprintCallable)
+	void Attack();
+	UFUNCTION(BlueprintCallable)
+	void AttackCheck();
+	UFUNCTION()
+	void OnAttackMontageEnded(UAnimMontage* montage, bool bInterrupted);
+
+	virtual float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+
 	void UpDown(float value);
 	void LeftRight(float value);
 	void Yaw(float value);
 
 	float GetHorizontal() { return _leftRight; }
 	float GetVertical() { return _upDown; }
+
 
 private:
 	UPROPERTY(VisibleAnywhere, Meta = (AllowPrivateAccess = true))
@@ -42,4 +53,11 @@ private:
 
 	class USpringArmComponent*		_springArm;
 	class UCameraComponent*			_camera;
+	class UMyStatComponent*			_stat;
+	class UWidgetComponent*			_hpBarWidget;
+
+	class UMyAnimInstance*			_animInstance;
+
+	int32 _curAttack = 1;
+	bool _isAttack = false;
 };

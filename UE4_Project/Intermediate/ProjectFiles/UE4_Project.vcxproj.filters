@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\UE4_Project.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{5E33565E-56FF-43AC-AFE4-21BE90D9CF57}</UniqueIdentifier>
+      <UniqueIdentifier>{A7478F7D-7936-4CD7-9E99-081C98954955}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\UE4_Project.Target.cs">
       <Filter>Source</Filter>
@@ -13,7 +13,7 @@
     </None>
     <None Include="..\..\.gitignore" />
     <Filter Include="Config">
-      <UniqueIdentifier>{E8F2AC24-7996-457F-86CA-13EB87CAD6E6}</UniqueIdentifier>
+      <UniqueIdentifier>{97A8D3CC-7188-4E5B-8A20-E2E53D6597EE}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -28,8 +28,20 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\UE4_Project">
-      <UniqueIdentifier>{3D798C95-775E-41E0-8DC5-9E7D47B8CC6A}</UniqueIdentifier>
+      <UniqueIdentifier>{DDAB454F-9C5E-457A-85F3-A0691EFEB894}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\UE4_Project\BT_FindRandPos.cpp">
+      <Filter>Source\UE4_Project</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\UE4_Project\BT_FindRandPos.h">
+      <Filter>Source\UE4_Project</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\UE4_Project\MyAIController.cpp">
+      <Filter>Source\UE4_Project</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\UE4_Project\MyAIController.h">
+      <Filter>Source\UE4_Project</Filter>
+    </ClInclude>
     <ClCompile Include="..\..\Source\UE4_Project\MyAnimInstance.cpp">
       <Filter>Source\UE4_Project</Filter>
     </ClCompile>
@@ -40,6 +52,24 @@
       <Filter>Source\UE4_Project</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\UE4_Project\MyCharacter.h">
+      <Filter>Source\UE4_Project</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\UE4_Project\MyGameInstance.cpp">
+      <Filter>Source\UE4_Project</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\UE4_Project\MyGameInstance.h">
+      <Filter>Source\UE4_Project</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\UE4_Project\MyHpBarWidget.cpp">
+      <Filter>Source\UE4_Project</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\UE4_Project\MyHpBarWidget.h">
+      <Filter>Source\UE4_Project</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\UE4_Project\MyStatComponent.cpp">
+      <Filter>Source\UE4_Project</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\UE4_Project\MyStatComponent.h">
       <Filter>Source\UE4_Project</Filter>
     </ClInclude>
     <None Include="..\..\Source\UE4_Project\UE4_Project.Build.cs">

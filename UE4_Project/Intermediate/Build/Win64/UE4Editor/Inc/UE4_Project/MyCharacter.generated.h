@@ -8,14 +8,27 @@
 #include "UObject/ScriptMacros.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
+class UAnimMontage;
 #ifdef UE4_PROJECT_MyCharacter_generated_h
 #error "MyCharacter.generated.h already included, missing '#pragma once' in MyCharacter.h"
 #endif
 #define UE4_PROJECT_MyCharacter_generated_h
 
 #define UE4_Project_Source_UE4_Project_MyCharacter_h_12_SPARSE_DATA
-#define UE4_Project_Source_UE4_Project_MyCharacter_h_12_RPC_WRAPPERS
-#define UE4_Project_Source_UE4_Project_MyCharacter_h_12_RPC_WRAPPERS_NO_PURE_DECLS
+#define UE4_Project_Source_UE4_Project_MyCharacter_h_12_RPC_WRAPPERS \
+ \
+	DECLARE_FUNCTION(execOnAttackMontageEnded); \
+	DECLARE_FUNCTION(execAttackCheck); \
+	DECLARE_FUNCTION(execAttack);
+
+
+#define UE4_Project_Source_UE4_Project_MyCharacter_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
+ \
+	DECLARE_FUNCTION(execOnAttackMontageEnded); \
+	DECLARE_FUNCTION(execAttackCheck); \
+	DECLARE_FUNCTION(execAttack);
+
+
 #define UE4_Project_Source_UE4_Project_MyCharacter_h_12_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAMyCharacter(); \

@@ -4,7 +4,12 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "DrawDebugHelpers.h"
 #include "MyAnimInstance.h"
+#include "MyStatComponent.h"
+#include "Components/WidgetComponent.h"
+#include "MyHpBarWidget.h"
+#include "MyAIController.h"
 
 // 로그
 // UE_LOG(LogTemp, Log, TEXT("UpDown Scale : %f"), value);
@@ -32,7 +37,46 @@ AMyCharacter::AMyCharacter()
 
 	_springArm->TargetArmLength = 500.0f;
 	_springArm->SetRelativeRotation(FRotator(-35.0f, 0.0f, 0.0f));
+
+	// TPS/FPS 용 게임 만들 때 쓰는 설정 (카메라가 Pawn의 컨트롤에 따라가지 않게)
 	//_springArm->bUsePawnControlRotation = true;
+	//_camera->bUsePawnControlRotation = false;
+
+	_stat = CreateDefaultSubobject<UMyStatComponent>(TEXT("Stat"));
+	_hpBarWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HpBar"));
+	_hpBarWidget->SetupAttachment(GetMesh());
+	_hpBarWidget->SetRelativeLocation(FVector(0.0f, 0.0f, 230.0f));
+	_hpBarWidget->SetWidgetSpace(EWidgetSpace::Screen);
+
+	static ConstructorHelpers::FClassFinder<UUserWidget> UW(TEXT("WidgetBlueprint'/Game/UI/MyHp.MyHp_C'"));
+
+	if (UW.Succeeded())
+	{
+		_hpBarWidget->SetWidgetClass(UW.Class);
+		_hpBarWidget->SetDrawSize(FVector2D(200.0f, 50.0f));
+	}
+
+	AIControllerClass = AMyAIController::StaticClass();
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+}
+
+void AMyCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	_animInstance = Cast<UMyAnimInstance>(GetMesh()->GetAnimInstance());
+
+	if (IsValid(_animInstance))
+	{
+		_animInstance->OnMontageEnded.AddDynamic(this, &AMyCharacter::OnAttackMontageEnded);
+		_animInstance->_onAttackHit.AddUObject(this, &AMyCharacter::AttackCheck);
+	}
+	_hpBarWidget->InitWidget();
+	auto hpWidget = Cast<UMyHpBarWidget>(_hpBarWidget->GetUserWidgetObject());
+	if (hpWidget)
+	{
+		hpWidget->Bind(_stat);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -56,6 +100,83 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAxis(TEXT("Yaw"), this, &AMyCharacter::Yaw);
 
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &AMyCharacter::Jump);
+	PlayerInputComponent->BindAction(TEXT("Attack"), EInputEvent::IE_Pressed, this, &AMyCharacter::Attack);
+}
+
+void AMyCharacter::Attack()
+{
+	if (_isAttack == true) return;
+
+	if (IsValid(_animInstance))
+	{
+		_animInstance->PlayAttackMontage();
+		_animInstance->JumpToSection(_curAttack);
+
+	}
+
+	_curAttack = (_curAttack) % 3 + 1;
+
+	_isAttack = true;
+}
+
+void AMyCharacter::AttackCheck()
+{
+	FHitResult hitResult;
+	FCollisionQueryParams params(NAME_None, false, this);
+
+	float attackRange = 500.0f;
+	float attackRadius = 50.0f;
+
+	bool boolResult = GetWorld()->SweepSingleByChannel
+	(
+	OUT hitResult,
+	GetActorLocation(),
+	GetActorLocation() + GetActorForwardVector() * attackRange,
+	FQuat::Identity,
+	ECollisionChannel::ECC_EngineTraceChannel2,
+	FCollisionShape::MakeSphere(attackRadius),
+	params
+	);
+
+	// 선으로 나가는거
+	//GetWorld()->LineTraceSingleByChannel()
+
+	FColor drawColor;
+	if (boolResult)
+	{
+		drawColor = FColor::Red;
+		//Cast<AMyCharacter>(hitResult.Actor)->TakeDamage(_stat->GetAtk());
+	}
+	else
+	{
+		drawColor = FColor::Green;
+	}
+	FVector vec = GetActorForwardVector() * attackRange;
+	FVector center = GetActorLocation() + vec * 0.5f;
+	float halfHeight = attackRange * 0.5f + attackRadius;
+	FQuat rotation = FRotationMatrix::MakeFromZ(vec).ToQuat();
+	DrawDebugCapsule(GetWorld(), center, halfHeight, attackRadius, rotation, drawColor, false, 1.0f);
+
+	if (boolResult && hitResult.Actor.IsValid())
+	{
+		FDamageEvent damageEvent;
+		hitResult.Actor->TakeDamage(_stat->GetAtk(), damageEvent, GetController(), this);
+	}
+}
+
+void AMyCharacter::OnAttackMontageEnded(UAnimMontage* montage, bool bInterrupted)
+{
+	_isAttack = false;
+
+}
+
+float AMyCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	_stat->Damaged(Damage);
+
+	UE_LOG(LogTemp, Log, TEXT("CurHP : %d"), _stat->GetHp());
+
+	return Damage;
 }
 
 void AMyCharacter::UpDown(float value)
